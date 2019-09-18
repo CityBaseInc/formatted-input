@@ -1,27 +1,32 @@
 {
   "name": "formatted-input",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "repository": "git@github.com:bengimbel/Formatted-Input.git",
   "author": "Ben Gimbel <bgimbel@thecitybase.com>",
   "license": "MIT",
+  "browser": "dist/formatted-input.e31bb0bc.js",
   "dependencies": {
     "babel-loader": "8.0.5",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "parcel-bundler": "^1.12.3",
-    "rollup": "^1.16.2",
+    "rollup": "^1.21.4",
     "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.1.0"
   },
   "scripts": {
     "start": "parcel index.html",
-    "dev": "rollup -c -w",
-    "build": "rollup -c"
+    "dev": "parcel ./src/index.html",
+    "build": "parcel build ./index.html"
   }
 }
