@@ -1,5 +1,12 @@
 import React from "../../node_modules/react";
 import FormattedInput, { createFormat } from "../../src/FormattedInput";
+import {
+  required,
+  matchesField,
+  onlyIntegers,
+  numberLessThan,
+  hasLength
+} from "redux-freeform";
 
 const phoneFormats = [
   "",
@@ -30,12 +37,86 @@ const dateFormats = [
   "xx/xx/xxxx"
 ];
 
+const nameFieldErrorMessages = {
+  [required.error]: "name is required"
+};
+const confirmNameFieldErrorMessages = {
+  [required.error]: "confirm name is required",
+  [matchesField.error]: "confirm name must match name"
+};
+const ageFieldErrorMessages = {
+  [required.error]: "age is required",
+  [onlyIntegers.error]: "age must be a whole number",
+  [numberLessThan.error]: "age must be less than 99"
+};
+const fourDigitCodeErrorMessages = {
+  [required.error]: "four digit code is required",
+  [hasLength.error]: "four digit code must be 4 numbers"
+};
 
-const ReduxFreeformExample = () => {
+const InputField = ({
+  labelTextWhenNoError,
+  field,
+  fieldActions,
+  errorMessages
+}) => (
+  <div>
+    <div>
+      <label>
+        {field.hasErrors
+          ? errorMessages[field.errors[0]]
+          : labelTextWhenNoError}
+      </label>
+    </div>
+    <input
+      value={field.rawValue}
+      onChange={e => fieldActions.set(e.target.value)}
+    />
+    {!field.dirty && " ✴️"}
+    {field.dirty && field.hasErrors && " ❌"}
+    {field.dirty && !field.hasErrors && " ✅"}
+    <p />
+  </div>
+);
+
+const ReduxFreeformExample = ({ actions, fields }) => {
   return (
     <div>
-      <FormattedInput value={""} formatter={createFormat(phoneFormats, "_")} />
-      <FormattedInput value={""} formatter={createFormat(dateFormats, "x")}/>
+      <InputField
+        field={fields.name}
+        fieldActions={actions.fields.name}
+        labelTextWhenNoError="name"
+        errorMessages={nameFieldErrorMessages}
+      />
+      <InputField
+        field={fields.confirmName}
+        fieldActions={actions.fields.confirmName}
+        labelTextWhenNoError="confirm name"
+        errorMessages={confirmNameFieldErrorMessages}
+      />
+      <InputField
+        field={fields.age}
+        fieldActions={actions.fields.age}
+        labelTextWhenNoError="age"
+        errorMessages={ageFieldErrorMessages}
+      />
+      <InputField
+        field={fields.fourDigitCode}
+        fieldActions={actions.fields.fourDigitCode}
+        labelTextWhenNoError="four digit code"
+        errorMessages={fourDigitCodeErrorMessages}
+      />
+      <FormattedInput
+        value={fields.date.rawValue}
+        formatter={createFormat(dateFormats, "x")}
+        onChange={e => actions.fields.date.set(e)}
+      />
+      <FormattedInput
+        value={fields.phone.rawValue}
+        formatter={createFormat(phoneFormats, "_")}
+        onChange={e => actions.fields.phone.set(e)}
+      />
+      <button onClick={() => actions.form.clear()}>Clear the form</button>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React from "../node_modules/react";
 import ReactDOM from "../node_modules/react-dom";
 import ExampleForm from "./ExampleForm";
-import ReduxFreeform from "./ReduxFreeformExample";
 import ReduxFreeformExample from "./ReduxFreeformExample";
 
 const exampleForm = document.getElementById("example-form");

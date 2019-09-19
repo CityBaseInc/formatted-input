@@ -9,7 +9,10 @@
     "start": "parcel index.html",
     "start-prod": "parcel build index.html && serve ./dist/"
   },
-  "dependencies": {},
+  "dependencies": {
+    "redux": "^4.0.4",
+    "redux-freeform": "^3.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
     "@babel/preset-env": "^7.4.5",
