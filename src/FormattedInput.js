@@ -7,10 +7,10 @@ import {
   unformattedToFormattedIndex
 } from "./Utils";
 
-export const createFormat = (name, formats, formatChar) => {
+export const createFormat = ( formats, formatChar) => {
   return {
-    name,
-    type: `formatter/${name.toUpperCase()}`,
+    // name,
+    // type: `formatter/${name.toUpperCase()}`,
     uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
     formats: formats,
     formatChar: formatChar
@@ -21,7 +21,8 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
   const inputEl = useRef(null);
   const [state, setState] = useState({
     selectionStart: 0,
-    selectionEnd: 0
+    selectionEnd: 0,
+    rawValue: value
   });
   useLayoutEffect(() => {
     if (inputEl.current) {
@@ -35,12 +36,13 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
     <div>
       <input
         ref={inputEl}
-        value={format(formatter)(value.rawValue)}
+        value={format(formatter)(state.rawValue)}
         {...props}
         onKeyDown={event => {
           setState({
+            rawValue: state.rawValue,
             selectionStart: event.target.selectionStart,
-            selectionEnd: event.target.selectionEnd
+            selectionEnd: event.target.selectionEnd,
           });
         }}
         onChange={event => {
@@ -49,12 +51,12 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
           );
 
           const lengthDifference =
-            unformattedNewValue.length - value.rawValue.length;
+            unformattedNewValue.length - state.rawValue.length;
 
           const rawIndex =
             formattedToUnformattedIndex(
               state.selectionStart,
-              value.rawValue,
+              state.rawValue,
               formatter
             ) + lengthDifference;
 
@@ -69,7 +71,8 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
 
           setState({
             selectionStart: newFormattedCursorPosition,
-            selectionEnd: newFormattedCursorPosition
+            selectionEnd: newFormattedCursorPosition,
+            rawValue: unformattedNewValue
           });
           if (onChange) {
             onChange(unformattedNewValue);
