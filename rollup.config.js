@@ -5,7 +5,7 @@ import pkg from './package.json';
 
 export default [
     {
-        input: 'src/index.js',
+        input: 'src/main.js',
         output: {
             name: 'index',
             file: pkg.main,
@@ -17,8 +17,7 @@ export default [
                 exclude: 'node_modules/**',
                 presets: ['@babel/env', '@babel/preset-react']
             }),   
-            commonjs(),
-            // rollupNodeResolve(), rollupBabel(), rollupCommonJS()
+            commonjs()
         ],
         external: [
             'react',
