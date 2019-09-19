@@ -1,1 +1,1 @@
-export { FormattedInput, createFormat } from './FormattedInput';
+export { default as FormattedInput, createFormat } from './FormattedInput';

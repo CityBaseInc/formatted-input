@@ -31,7 +31,7 @@ const dateFormats = [
 ];
 
 
-const ExampleForm = () => {
+const ReduxFreeformExample = () => {
   return (
     <div>
       <FormattedInput value={""} formatter={createFormat(phoneFormats, "_")} />
@@ -40,4 +40,4 @@ const ExampleForm = () => {
   );
 };
 
-export default ExampleForm;
+export default ReduxFreeformExample;
