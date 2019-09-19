@@ -7,10 +7,10 @@ import {
   unformattedToFormattedIndex
 } from "./Utils";
 
-export const createFormat = (name, formats, formatChar) => {
+export const createFormat = ( formats, formatChar) => {
   return {
-    name,
-    type: `formatter/${name.toUpperCase()}`,
+    // name,
+    // type: `formatter/${name.toUpperCase()}`,
     uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
     formats: formats,
     formatChar: formatChar

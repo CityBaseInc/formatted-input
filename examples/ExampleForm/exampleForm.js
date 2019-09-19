@@ -1,5 +1,5 @@
-import React from "react";
-import { FormattedInput, createFormat } from "../../src/main";
+import React from "../../node_modules/react";
+import { FormattedInput, createFormat } from "../../src/FormattedInput";
 
 const phoneFormats = [
   "",
