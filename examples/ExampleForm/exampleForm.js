@@ -20,21 +20,23 @@ const phoneFormats = [
 
 const dateFormats = [
   "",
-  "_",
-  "__/",
-  "__/_",
-  "__/__/",
-  "__/__/_",
-  "__/__/__",
-  "__/__/___",
-  "__/__/____"
+  "x",
+  "xx/",
+  "xx/x",
+  "xx/xx/",
+  "xx/xx/x",
+  "xx/xx/xx",
+  "xx/xx/xxx",
+  "xx/xx/xxxx"
 ];
+
 
 const ExampleForm = () => {
   return (
     <div>
+      <input type="text" />
       <FormattedInput value={""} formatter={createFormat(phoneFormats, "_")} />
-      <FormattedInput value={""} formatter={createFormat(dateFormats, "_")} />
+      <FormattedInput value={""} formatter={createFormat(dateFormats, "x")}/>
     </div>
   );
 };
