@@ -110,11 +110,21 @@ const ReduxFreeformExample = ({ actions, fields }) => {
         value={fields.date.rawValue}
         formatter={createFormat(dateFormats, "x")}
         onChange={e => actions.fields.date.set(e)}
+        style={{
+          color: "green",
+          padding: "4px 4px",
+          margin: "4px 4px"
+        }}
       />
       <FormattedInput
         value={fields.phone.rawValue}
         formatter={createFormat(phoneFormats, "_")}
         onChange={e => actions.fields.phone.set(e)}
+        style={{
+          color: "red",
+          padding: "4px 4px",
+          margin: "4px 4px"
+        }}
       />
       <button onClick={() => actions.form.clear()}>Clear the form</button>
     </div>
