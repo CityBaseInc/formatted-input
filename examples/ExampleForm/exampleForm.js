@@ -1,5 +1,5 @@
-import React from "../../node_modules/react";
-import { FormattedInput, createFormat } from "../../src/FormattedInput";
+import React, { useState } from "../../node_modules/react";
+import FormattedInput, { createFormat } from "../../src/FormattedInput";
 
 const phoneFormats = [
   "",
@@ -20,22 +20,32 @@ const phoneFormats = [
 
 const dateFormats = [
   "",
-  "_",
-  "__/",
-  "__/_",
-  "__/__/",
-  "__/__/_",
-  "__/__/__",
-  "__/__/___",
-  "__/__/____"
+  "x",
+  "xx/",
+  "xx/x",
+  "xx/xx/",
+  "xx/xx/x",
+  "xx/xx/xx",
+  "xx/xx/xxx",
+  "xx/xx/xxxx"
 ];
 
 const ExampleForm = () => {
+  const [phone, setPhone] = useState("");
+  const [date, setDate] = useState("");
   return (
-    <div>
-      <FormattedInput value={""} formatter={createFormat(phoneFormats, "_")} />
-      <FormattedInput value={""} formatter={createFormat(dateFormats, "_")} />
-    </div>
+    <form>
+      <FormattedInput
+        value={phone}
+        formatter={createFormat(phoneFormats, "_")}
+        onChange={rawValue => setPhone(rawValue)}
+      />
+      <FormattedInput
+        value={date}
+        formatter={createFormat(dateFormats, "x")}
+        onChange={rawValue => setDate(rawValue)}
+      />
+    </form>
   );
 };
 
