@@ -1,16 +1,19 @@
-import test, { beforeEach } from "ava";
-import {shallow} from "enzyme";
-import { FormattedInput, createFormat } from '../src/FormattedInput';
+import test from "ava";
+import React, { JSX } from "react";
+import { shallow } from "enzyme";
+import { FormattedInput, createFormat } from "../src/FormattedInput";
 
-describe("<FormattedInput />"), () => {
-  let wrapper;
-  let props;
+test("can use ava", t => {
+    t.pass();
+});
 
-  beforeEach(() => {
-     wrapper = shallow(<FormattedInput {...props} />)
-  });
+let wrapper = shallow(<FormattedInput />);
 
-  it("renders the FormattedInput component"), () => {
-    wrapper.find("input").length.toBe(1);
-  }
-}
+test("renders an input element under the hood", t => {
+  t.is(wrapper.children().length, 1);
+  t.is(wrapper.find("input").length, 1);
+});
+
+it("formats a date correctly", () => {
+
+});

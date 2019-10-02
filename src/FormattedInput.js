@@ -7,7 +7,6 @@ import {
   unformattedToFormattedIndex
 } from "./utils";
 
-
 export const createFormat = (formats, formatChar) => ({
   uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
   formats: formats,
@@ -30,53 +29,51 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
     }
   });
   return (
-    <div>
-      <input
-        ref={inputEl}
-        value={format(formatter)(value)}
-        {...props}
-        onKeyDown={event => {
-          setState({
-            rawValue: state.rawValue,
-            selectionStart: event.target.selectionStart,
-            selectionEnd: event.target.selectionEnd
-          });
-        }}
-        onChange={event => {
-          const unformattedNewValue = unformat(formatter.uniqueDelimeters)(
-            event.target.value
-          );
+    <input
+      ref={inputEl}
+      value={format(formatter)(value)}
+      {...props}
+      onKeyDown={event => {
+        setState({
+          rawValue: state.rawValue,
+          selectionStart: event.target.selectionStart,
+          selectionEnd: event.target.selectionEnd
+        });
+      }}
+      onChange={event => {
+        const unformattedNewValue = unformat(formatter.uniqueDelimeters)(
+          event.target.value
+        );
 
-          const lengthDifference =
-            unformattedNewValue.length - state.rawValue.length;
+        const lengthDifference =
+          unformattedNewValue.length - state.rawValue.length;
 
-          const rawIndex =
-            formattedToUnformattedIndex(
-              state.selectionStart,
-              state.rawValue,
-              formatter
-            ) + lengthDifference;
+        const rawIndex =
+          formattedToUnformattedIndex(
+            state.selectionStart,
+            state.rawValue,
+            formatter
+          ) + lengthDifference;
 
-          const newFormattedCursorPosition =
-            state.selectionStart == state.selectionEnd
-              ? unformattedToFormattedIndex(
-                  rawIndex,
-                  unformattedNewValue,
-                  formatter
-                )
-              : state.selectionStart;
+        const newFormattedCursorPosition =
+          state.selectionStart == state.selectionEnd
+            ? unformattedToFormattedIndex(
+                rawIndex,
+                unformattedNewValue,
+                formatter
+              )
+            : state.selectionStart;
 
-          setState({
-            selectionStart: newFormattedCursorPosition,
-            selectionEnd: newFormattedCursorPosition,
-            rawValue: unformattedNewValue
-          });
-          if (onChange) {
-            onChange(unformattedNewValue);
-          }
-        }}
-      />
-    </div>
+        setState({
+          selectionStart: newFormattedCursorPosition,
+          selectionEnd: newFormattedCursorPosition,
+          rawValue: unformattedNewValue
+        });
+        if (onChange) {
+          onChange(unformattedNewValue);
+        }
+      }}
+    />
   );
 };
 
