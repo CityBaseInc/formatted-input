@@ -9,8 +9,6 @@ import {
 
 export const createFormat = ( formats, formatChar) => {
   return {
-    // name,
-    // type: `formatter/${name.toUpperCase()}`,
     uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
     formats: formats,
     formatChar: formatChar
