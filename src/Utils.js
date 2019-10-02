@@ -30,8 +30,8 @@ export const formattedToUnformattedIndex = (
   rawValue,
   formatter
 ) => {
-  const maxFormatExceeded = rawValue.length >= formatter.formats.length;
-  const offset = maxFormatExceeded ? 1 : 0;
+  const maxFormatExceeded = rawValue.length > formatter.formats.length - 2;
+  const offset = maxFormatExceeded ? formatter.uniqueDelimeters.length + 1 : 0;
   const formatString = maxFormatExceeded
     ? formatter.formats[formatter.formats.length - 1]
     : formatter.formats[rawValue.length];
@@ -43,8 +43,8 @@ export const formattedToUnformattedIndex = (
 };
 
 export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
-  const formatString =
-    rawValue.length < formatter.formats.length
+  const formatString = 
+    rawValue.length < formatter.formats.length - 2
       ? formatter.formats[rawValue.length]
       : formatter.formats[formatter.formats.length - 1];
   return (
