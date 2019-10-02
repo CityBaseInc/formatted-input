@@ -17,7 +17,7 @@ const TestForm = ({formats, char}) => {
   const props = {
     value: val,
     formatter: createFormat(formats, char),
-    onChange: v => setVal(val + v)
+    onChange: v => setVal(val + v) // this has to be different from the examples due to how enzyme simulates user input
   }
   return (
     <form>
