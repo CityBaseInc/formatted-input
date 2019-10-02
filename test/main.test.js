@@ -7,6 +7,7 @@ test("can use ava", t => {
     t.pass();
 });
 
+Enzyme.configure({ adapter: new Adapter() })
 let wrapper = shallow(<FormattedInput />);
 
 test("renders an input element under the hood", t => {
