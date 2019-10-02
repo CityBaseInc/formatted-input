@@ -35,16 +35,20 @@ const ExampleForm = () => {
   const [date, setDate] = useState("");
   return (
     <form>
-      <FormattedInput
-        value={phone}
-        formatter={createFormat(phoneFormats, "_")}
-        onChange={rawValue => setPhone(rawValue)}
-      />
-      <FormattedInput
-        value={date}
-        formatter={createFormat(dateFormats, "x")}
-        onChange={rawValue => setDate(rawValue)}
-      />
+      <div>
+        <FormattedInput
+          value={phone}
+          formatter={createFormat(phoneFormats, "_")}
+          onChange={rawValue => setPhone(rawValue)}
+        />
+      </div>
+      <div>
+        <FormattedInput
+          value={date}
+          formatter={createFormat(dateFormats, "x")}
+          onChange={rawValue => setDate(rawValue)}
+        />
+      </div>
     </form>
   );
 };

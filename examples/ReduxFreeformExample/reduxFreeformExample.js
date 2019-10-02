@@ -106,26 +106,30 @@ const ReduxFreeformExample = ({ actions, fields }) => {
         labelTextWhenNoError="four digit code"
         errorMessages={fourDigitCodeErrorMessages}
       />
-      <FormattedInput
-        value={fields.date.rawValue}
-        formatter={createFormat(dateFormats, "x")}
-        onChange={e => actions.fields.date.set(e)}
-        style={{
-          color: "green",
-          padding: "4px 4px",
-          margin: "4px 4px"
-        }}
-      />
-      <FormattedInput
-        value={fields.phone.rawValue}
-        formatter={createFormat(phoneFormats, "_")}
-        onChange={e => actions.fields.phone.set(e)}
-        style={{
-          color: "red",
-          padding: "4px 4px",
-          margin: "4px 4px"
-        }}
-      />
+      <div>
+        <FormattedInput
+          value={fields.date.rawValue}
+          formatter={createFormat(dateFormats, "x")}
+          onChange={e => actions.fields.date.set(e)}
+          style={{
+            color: "green",
+            padding: "4px 4px",
+            margin: "4px 4px"
+          }}
+        />
+      </div>
+      <div>
+        <FormattedInput
+          value={fields.phone.rawValue}
+          formatter={createFormat(phoneFormats, "_")}
+          onChange={e => actions.fields.phone.set(e)}
+          style={{
+            color: "red",
+            padding: "4px 4px",
+            margin: "4px 4px"
+          }}
+        />
+      </div>
       <button onClick={() => actions.form.clear()}>Clear the form</button>
     </div>
   );
