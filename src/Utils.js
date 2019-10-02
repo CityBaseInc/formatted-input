@@ -30,13 +30,19 @@ export const formattedToUnformattedIndex = (
   rawValue,
   formatter
 ) => {
-  const formatString = formatter.formats[rawValue.length];
+  const formatString =
+    rawValue.length < formatter.formats.length
+      ? formatter.formats[rawValue.length]
+      : formatter.formats[formatter.formats.length - 1];
   const beforeString = formatString.slice(0, formattedIndex);
   return beforeString.split("").filter(c => c === formatter.formatChar).length;
 };
 
 export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
-  const formatString = formatter.formats[rawValue.length];
+  const formatString =
+    rawValue.length < formatter.formats.length
+      ? formatter.formats[rawValue.length]
+      : formatter.formats[formatter.formats.length - 1];
   return (
     formatString
       .split(formatter.formatChar)

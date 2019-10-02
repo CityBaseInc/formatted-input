@@ -5,17 +5,13 @@ import {
   getUniqueFormatDelimeters,
   formattedToUnformattedIndex,
   unformattedToFormattedIndex
-} from "./Utils";
+} from "./utils";
 
-export const createFormat = ( formats, formatChar) => {
-  return {
-    // name,
-    // type: `formatter/${name.toUpperCase()}`,
-    uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
-    formats: formats,
-    formatChar: formatChar
-  };
-};
+export const createFormat = (formats, formatChar) => ({
+  uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
+  formats: formats,
+  formatChar: formatChar
+});
 
 const FormattedInput = ({ value, formatter, onChange, props }) => {
   const inputEl = useRef(null);
@@ -36,13 +32,13 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
     <div>
       <input
         ref={inputEl}
-        value={format(formatter)(state.rawValue)}
+        value={format(formatter)(value)}
         {...props}
         onKeyDown={event => {
           setState({
             rawValue: state.rawValue,
             selectionStart: event.target.selectionStart,
-            selectionEnd: event.target.selectionEnd,
+            selectionEnd: event.target.selectionEnd
           });
         }}
         onChange={event => {
