@@ -4,7 +4,7 @@ FormattedInput is a small component library which will allow you to design a cus
 
 The component at the center of the library is FormattedInput, which like the basic input element, is a [controlled component](https://reactjs.org/docs/forms.html#controlled-components), which means that the React component utilizing it is the source of truth for its value.
 
-FormattedInput is purely a cosmetic UI component, meaning that the raw value of the user's input is preserved underneath the hood, and th.
+FormattedInput is purely a cosmetic UI component, meaning that the raw value of the user's input is preserved underneath the hood.
 
 ## Why?
 
