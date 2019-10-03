@@ -30,9 +30,9 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
   });
   return (
     <input
+      {...props}
       ref={inputEl}
       value={format(formatter)(value)}
-      {...props}
       onKeyDown={event => {
         setState({
           rawValue: state.rawValue,
