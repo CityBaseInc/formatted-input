@@ -37,6 +37,26 @@ const dateFormats = [
   "xx/xx/xxxx"
 ];
 
+const creditCardFormats = [
+  "",
+  "~",
+  "~~",
+  "~~~",
+  "~~~~",
+  "~~~~ ~",
+  "~~~~ ~~",
+  "~~~~ ~~~",
+  "~~~~ ~~~~",
+  "~~~~ ~~~~ ~",
+  "~~~~ ~~~~ ~~",
+  "~~~~ ~~~~ ~~~",
+  "~~~~ ~~~~ ~~~~",
+  "~~~~ ~~~~ ~~~~ ~",
+  "~~~~ ~~~~ ~~~~ ~~",
+  "~~~~ ~~~~ ~~~~ ~~~",
+  "~~~~ ~~~~ ~~~~ ~~~~"
+];
+
 const nameFieldErrorMessages = {
   [required.error]: "name is required"
 };
@@ -128,6 +148,13 @@ const ReduxFreeformExample = ({ actions, fields }) => {
             padding: "4px 4px",
             margin: "4px 4px"
           }}
+        />
+      </div>
+      <div>
+        <FormattedInput
+        value={fields.creditCard.rawValue}
+        formatter={createFormat(creditCardFormats, "~")}
+        onChange={e => actions.fields.creditCard.set(e)}
         />
       </div>
       <button onClick={() => actions.form.clear()}>Clear the form</button>

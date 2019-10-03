@@ -32,6 +32,10 @@ const formConfig = {
   phone: {
     validators: [required(), hasLength(11, 13)],
     constraints: [onlyIntegers(), hasLength(0, 13)]
+  },
+  creditCard: {
+    validators: [required(), hasLength(16, 16)],
+    constraints: [onlyIntegers(), hasLength(0, 16)]
   }
 };
 
