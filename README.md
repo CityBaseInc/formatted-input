@@ -1,5 +1,8 @@
 ![header](/img/formatted-input-logo.png)
 
+[Read the Docs!](https://citybaseinc.github.io/formatted-input)
+
+
 ## What?
 
 FormattedInput is a small component library which will allow you to design a custom input format and apply it to a form field. No matter the type of formatting your form needs, you are able to customize what type of format the input takes and the symbols being used in between the characters or digits.
