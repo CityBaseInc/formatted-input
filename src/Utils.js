@@ -30,27 +30,28 @@ export const formattedToUnformattedIndex = (
   rawValue,
   formatter
 ) => {
-  const maxFormatExceeded = rawValue.length > formatter.formats.length - 2;
-  const offset = maxFormatExceeded ? formatter.uniqueDelimeters.length + 1 : 0;
-  const formatString = maxFormatExceeded
-    ? formatter.formats[formatter.formats.length - 1]
-    : formatter.formats[rawValue.length];
-  const beforeString = formatString.slice(0, formattedIndex);
-  return (
-    beforeString.split("").filter(c => c === formatter.formatChar).length +
-    offset
-  );
+  const maxFormatExceeded = rawValue.length >= formatter.formats.length - 2;
+  if (maxFormatExceeded) {
+    return formattedIndex + formatter.uniqueDelimeters.length + 1;
+  } else {
+    const formatString = formatter.formats[rawValue.length];
+    const beforeString = formatString.slice(0, formattedIndex);
+    return (
+      beforeString.split("").filter(c => c === formatter.formatChar).length
+    );
+  }
 };
 
 export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
-  const formatString = 
-    rawValue.length < formatter.formats.length - 2
-      ? formatter.formats[rawValue.length]
-      : formatter.formats[formatter.formats.length - 1];
-  return (
-    formatString
-      .split(formatter.formatChar)
-      .slice(0, rawIndex)
-      .reduce((acc, curr) => curr.length + acc, 0) + rawIndex
-  );
+  const maxFormatExceeded = rawValue.length >= formatter.formats.length - 1;
+  if (maxFormatExceeded) {
+    return rawIndex + formatter.uniqueDelimeters.length + 1;
+  } else {
+    return (
+      formatter.formats[rawValue.length]
+        .split(formatter.formatChar)
+        .slice(0, rawIndex)
+        .reduce((acc, curr) => curr.length + acc, 0) + rawIndex
+    );
+  }
 };
