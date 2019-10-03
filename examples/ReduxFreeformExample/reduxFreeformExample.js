@@ -57,6 +57,19 @@ const creditCardFormats = [
   "~~~~ ~~~~ ~~~~ ~~~~"
 ];
 
+const moneyFormats = [
+  "",
+  "$_",
+  "$__",
+  "$___",
+  "$_,___",
+  "$__,___",
+  "$___,___",
+  "$_,___,___",
+  "$__,___,___",
+  "$___,___,___"
+];
+
 const nameFieldErrorMessages = {
   [required.error]: "name is required"
 };
@@ -73,6 +86,22 @@ const fourDigitCodeErrorMessages = {
   [required.error]: "four digit code is required",
   [hasLength.error]: "four digit code must be 4 numbers"
 };
+const dateFieldErrorMessages = {
+  [required.error]: "date is required",
+  [hasLength.error]: "date must match mm/dd/yyyy"
+};
+const phoneFieldErrorMessages = {
+  [required.error]: "phone is required",
+  [hasLength.error]: "phone must be between 11 and 13 digits"
+};
+const creditCardFieldErrorMessages = {
+  [required.error]: "credit card is required",
+  [hasLength.error]: "credit card must be 16 numbers"
+};
+const moneyFieldErrorMessages = {
+  [required.error]: "money is required",
+  [hasLength.error]: "gotta enter some money"
+}
 
 const InputField = ({
   labelTextWhenNoError,
@@ -91,6 +120,33 @@ const InputField = ({
     <input
       value={field.rawValue}
       onChange={e => fieldActions.set(e.target.value)}
+    />
+    {!field.dirty && " ✴️"}
+    {field.dirty && field.hasErrors && " ❌"}
+    {field.dirty && !field.hasErrors && " ✅"}
+    <p />
+  </div>
+);
+
+const FormattedInputField = ({
+  labelTextWhenNoError,
+  field,
+  fieldActions,
+  errorMessages,
+  formatter
+}) => (
+  <div>
+    <div>
+      <label>
+        {field.hasErrors
+          ? errorMessages[field.errors[0]]
+          : labelTextWhenNoError}
+      </label>
+    </div>
+    <FormattedInput
+      value={field.rawValue}
+      formatter={formatter}
+      onChange={e => fieldActions.set(e)}
     />
     {!field.dirty && " ✴️"}
     {field.dirty && field.hasErrors && " ❌"}
@@ -126,37 +182,34 @@ const ReduxFreeformExample = ({ actions, fields }) => {
         labelTextWhenNoError="four digit code"
         errorMessages={fourDigitCodeErrorMessages}
       />
-      <div>
-        <FormattedInput
-          value={fields.date.rawValue}
-          formatter={createFormat(dateFormats, "x")}
-          onChange={e => actions.fields.date.set(e)}
-          style={{
-            color: "green",
-            padding: "4px 4px",
-            margin: "4px 4px"
-          }}
-        />
-      </div>
-      <div>
-        <FormattedInput
-          value={fields.phone.rawValue}
-          formatter={createFormat(phoneFormats, "_")}
-          onChange={e => actions.fields.phone.set(e)}
-          style={{
-            color: "red",
-            padding: "4px 4px",
-            margin: "4px 4px"
-          }}
-        />
-      </div>
-      <div>
-        <FormattedInput
-        value={fields.creditCard.rawValue}
+      <FormattedInputField 
+        field={fields.date}
+        fieldActions={actions.fields.date}
+        labelTextWhenNoError="date"
+        errorMessages={dateFieldErrorMessages}
+        formatter={createFormat(dateFormats, "x")}
+      />
+      <FormattedInputField 
+        field={fields.phone}
+        fieldActions={actions.fields.phone}
+        labelTextWhenNoError="phone"
+        errorMessages={phoneFieldErrorMessages}
+        formatter={createFormat(phoneFormats, "_")}
+      />
+      <FormattedInputField 
+        field={fields.creditCard}
+        fieldActions={actions.fields.creditCard}
+        labelTextWhenNoError="credit card"
+        errorMessages={creditCardFieldErrorMessages}
         formatter={createFormat(creditCardFormats, "~")}
-        onChange={e => actions.fields.creditCard.set(e)}
-        />
-      </div>
+      />
+      <FormattedInputField 
+        field={fields.money}
+        fieldActions={actions.fields.money}
+        labelTextWhenNoError="money"
+        errorMessages={moneyFieldErrorMessages}
+        formatter={createFormat(moneyFormats, "_")}
+      />
       <button onClick={() => actions.form.clear()}>Clear the form</button>
     </div>
   );

@@ -36,6 +36,10 @@ const formConfig = {
   creditCard: {
     validators: [required(), hasLength(16, 16)],
     constraints: [onlyIntegers(), hasLength(0, 16)]
+  },
+  money: {
+    validators: [required()],
+    constraints: [onlyIntegers(), hasLength(0, 9)]
   }
 };
 
