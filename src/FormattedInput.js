@@ -5,7 +5,7 @@ import {
   getUniqueFormatDelimeters,
   formattedToUnformattedIndex,
   unformattedToFormattedIndex
-} from "./utils";
+} from "./Utils";
 
 export const createFormat = (formats, formatChar) => ({
   uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
