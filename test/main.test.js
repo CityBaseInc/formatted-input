@@ -1,7 +1,7 @@
 import test from "ava";
 import React, { useState } from "react";
 import { shallow, mount } from "enzyme";
-import FormattedInput, { createFormat } from "../src/FormattedInput";
+import { FormattedInput, createFormat } from "../src";
 import Enzyme from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
 import { dateFormats, phoneFormats } from "./utils";
