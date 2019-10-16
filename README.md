@@ -1,4 +1,5 @@
 ![header](/img/formatted-input-logo.png)
+[![CircleCI](https://circleci.com/gh/CityBaseInc/formatted-input.svg?style=svg)](https://circleci.com/gh/CityBaseInc/formatted-input)
 
 ## What?
 
