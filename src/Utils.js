@@ -19,6 +19,14 @@ export const format = formatter => value => {
   return zipped.join("");
 };
 
+const countDelims = (formatter, index) => {
+  let count = 0;
+  const format = formatter.formats[index];
+  if (!format) return 0;
+  formatter.uniqueDelimeters.forEach(delim => count += format.split(delim).length - 1);
+  return count;
+};
+
 export const unformat = uniqueDelimeters => formattedValue =>
   formattedValue
     .split("")
@@ -30,22 +38,23 @@ export const formattedToUnformattedIndex = (
   rawValue,
   formatter
 ) => {
-  const maxFormatExceeded = rawValue.length >= formatter.formats.length - 2;
+  const maxFormatExceeded = rawValue.length >= formatter.formats.length;
   if (maxFormatExceeded) {
-    return formattedIndex + formatter.uniqueDelimeters.length + 1;
+    return formattedIndex;
   } else {
     const formatString = formatter.formats[rawValue.length];
     const beforeString = formatString.slice(0, formattedIndex);
-    return (
-      beforeString.split("").filter(c => c === formatter.formatChar).length
-    );
+    return beforeString.split("").filter(c => c === formatter.formatChar)
+      .length;
   }
 };
 
 export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
-  const maxFormatExceeded = rawValue.length >= formatter.formats.length - 1;
+  const maxFormatExceeded = rawValue.length >= formatter.formats.length;
+  // if forced to stay formatted, offset by delims - 1
   if (maxFormatExceeded) {
-    return rawIndex + formatter.uniqueDelimeters.length + 1;
+    const delims = countDelims(formatter, rawValue.length - 1);
+    return delims > 0 ? rawIndex + delims - 1 : rawIndex;
   } else {
     return (
       formatter.formats[rawValue.length]

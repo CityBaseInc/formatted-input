@@ -1,5 +1,5 @@
 import test from "ava";
-import React, { JSX, useState } from "react";
+import React, { useState } from "react";
 import { shallow, mount } from "enzyme";
 import FormattedInput, { createFormat } from "../src/FormattedInput";
 import Enzyme from "enzyme";
@@ -37,9 +37,12 @@ test("renders an input element under the hood", t => {
   t.is(wrapper.find("input").length, 1);
 });
 
-test("works as a controlled component", t => {
-  let form = shallow(<TestForm formats={phoneFormats} char={"_"} />);
-  t.is(form.children().length, 1);
+test("works as a controlled component, input does not control value", t => {
+  let form = mount(<TestForm formats={phoneFormats} char={"_"} />);
+  let input = form.find("input").first();
+  input.simulate("keypress", {key: "1"});
+  input = form.find("input").first();
+  t.is(input.props().value, "");
 });
 
 test("formats a date correctly", t => {
@@ -88,11 +91,31 @@ test("handles multiple reformatting on user input", t => {
 test("handles complex reformatting on user input", t => {
   let form = mount(<TestForm formats={phoneFormats} char={"_"} />);
   let formattedInput = form.find("FormattedInput").at(0);
-  t.is(formattedInput.find("input").length, 1);
   formattedInput.simulate("change", {target: {value: "12345678900"}});
   let input = form.find("input").first();
   t.is(input.props().value, "+1 (234) 567 - 8900");
   formattedInput.simulate("change", {target: {value: "00"}});
   input = form.find("input").first();
   t.is(input.props().value, "+123 (456) 789 - 0000");
+});
+
+test("unformats beyond formatter without constraints", t => {
+  let form = mount(<TestForm formats={phoneFormats} char={"_"} />);
+  let formattedInput = form.find("FormattedInput").at(0);
+  t.is(formattedInput.find("input").length, 1);
+  formattedInput.simulate("change", {target: {value: "12345678901234"}});
+  let input = form.find("input").first();
+  t.is(input.props().value, "12345678901234");
+});
+
+test("cursor position", t => {
+  let form = mount(<TestForm formats={phoneFormats} char={"_"} />);
+  let formattedInput = form.find("FormattedInput").at(0);
+  let input = form.find("input").first();
+  t.is(input.instance().selectionStart, 0);
+  t.is(input.instance().selectionEnd, 0);
+  formattedInput.simulate("change", {target: {value: "12345678900"}});
+  input = form.find("input").first();
+  t.is(input.instance().selectionStart, 19);
+  t.is(input.instance().selectionEnd, 19);
 });

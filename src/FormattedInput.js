@@ -18,7 +18,8 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
   const [state, setState] = useState({
     selectionStart: 0,
     selectionEnd: 0,
-    rawValue: value
+    rawValue: value,
+    delete: false
   });
   useLayoutEffect(() => {
     if (inputEl.current) {
@@ -37,7 +38,8 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
         setState({
           rawValue: state.rawValue,
           selectionStart: event.target.selectionStart,
-          selectionEnd: event.target.selectionEnd
+          selectionEnd: event.target.selectionEnd,
+          delete: event.key === "Backspace" || event.key === "Delete"
         });
       }}
       onChange={event => {
@@ -62,16 +64,19 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
                 unformattedNewValue,
                 formatter
               )
-            : state.selectionStart;
+            : state.delete
+            ? state.selectionStart
+            : state.selectionEnd;
 
         setState({
           selectionStart: newFormattedCursorPosition,
           selectionEnd: newFormattedCursorPosition,
-          rawValue: unformattedNewValue
+          rawValue: unformattedNewValue,
+          delete: false
         });
         if (onChange) {
           onChange(unformattedNewValue);
-        }
+        };
       }}
     />
   );
