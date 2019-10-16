@@ -26,6 +26,39 @@ const TestForm = ({formats, char}) => {
   );
 };
 
+const NoOnChangeForm = ({formats, char}) => {
+  const [val] = useState("");
+  const props = {
+    value: val,
+    formatter: createFormat(formats, char)
+  }
+  return (
+    <form>
+      <FormattedInput {...props} />
+    </form>
+  );
+};
+
+const ConstrainedTestForm = ({formats, char}) => {
+  const [val, setVal] = useState("");
+  const props = {
+    value: val,
+    formatter: createFormat(formats, char),
+    onChange: v => {
+      if (val.length < 11) {
+        setVal(val + v)
+      } else {
+        setVal(val)
+      }
+    }
+  }
+  return (
+    <form>
+      <FormattedInput {...props} />
+    </form>
+  );
+};
+
 
 test("renders an input element under the hood", t => {
   const props = {
@@ -40,8 +73,16 @@ test("renders an input element under the hood", t => {
 test("works as a controlled component, input does not control value", t => {
   let form = mount(<TestForm formats={phoneFormats} char={"_"} />);
   let input = form.find("input").first();
-  input.simulate("keypress", {key: "1"});
+  input.simulate("keydown", {key: "1"});
   input = form.find("input").first();
+  t.is(input.props().value, "");
+});
+
+test("no onChange provided", t => {
+  let form = mount(<NoOnChangeForm formats={phoneFormats} char={"_"} />);
+  let formattedInput = form.find("FormattedInput").at(0);
+  formattedInput.simulate("change", {target: {value: "1"}});
+  let input = form.find("input").first();
   t.is(input.props().value, "");
 });
 
@@ -106,6 +147,23 @@ test("unformats beyond formatter without constraints", t => {
   formattedInput.simulate("change", {target: {value: "12345678901234"}});
   let input = form.find("input").first();
   t.is(input.props().value, "12345678901234");
+  formattedInput.simulate("change", {target: {value: "00"}});
+  input = form.find("input").first();
+  t.is(input.props().value, "1234567890123400");
+  formattedInput.simulate("change", {target: {value: "00"}});
+  input = form.find("input").first();
+  t.is(input.props().value, "123456789012340000");
+});
+
+test("constrained under format", t => {
+  let form = mount(<ConstrainedTestForm formats={phoneFormats} char={"_"} />);
+  let formattedInput = form.find("FormattedInput").at(0);
+  formattedInput.simulate("change", {target: {value: "12345678900"}});
+  let input = form.find("input").first();
+  t.is(input.props().value, "+1 (234) 567 - 8900");
+  formattedInput.simulate("change", {target: {value: "00"}});
+  input = form.find("input").first();
+  t.is(input.props().value, "+1 (234) 567 - 8900");
 });
 
 test("cursor position", t => {
