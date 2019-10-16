@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci//node:10.14
+      - image: circleci/node:10.14
     
     working_directory: ~/formatted-input
     steps:
@@ -19,7 +19,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
   test:
     docker:
-      - image: circleci//node:10.14
+      - image: circleci/node:10.14
     
     working_directory: ~/formatted-input
     steps:
