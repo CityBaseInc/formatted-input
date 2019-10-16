@@ -2,8 +2,8 @@
   "name": "formatted-input",
   "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "git@github.com:bengimbel/Formatted-Input.git",
-  "author": "Ben Gimbel <bgimbel@thecitybase.com>",
+  "repository": "git@github.com:CityBaseInc/formatted-input.git",
+  "author": "Citybase Inc.",
   "license": "MIT",
   "browser": "dist/formatted-input.e31bb0bc.js",
   "dependencies": {
