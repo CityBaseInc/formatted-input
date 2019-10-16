@@ -1,5 +1,5 @@
 import React from "../../node_modules/react";
-import FormattedInput, { createFormat } from "../../src/FormattedInput";
+import { FormattedInput, createFormat } from "../../src";
 import {
   required,
   matchesField,

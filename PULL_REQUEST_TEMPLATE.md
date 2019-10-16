@@ -6,7 +6,7 @@ A brief description of the changes and purpose of the PR.
 - [x] ...
 
 ## Code of Conduct
-https://github.com/CityBaseInc/formatted-input/blob/master/CODE_OF_CONDUCT.md
+https://github.com/CityBaseInc/custom-formatter/blob/master/CODE_OF_CONDUCT.md
 
 ## Concerns
 (optional)

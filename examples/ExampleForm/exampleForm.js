@@ -1,5 +1,5 @@
 import React, { useState } from "../../node_modules/react";
-import FormattedInput, { createFormat } from "../../src/FormattedInput";
+import { createFormat, FormattedInput } from "../../src";
 
 const phoneFormats = [
   "",

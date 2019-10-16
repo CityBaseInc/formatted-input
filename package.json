@@ -1,11 +1,11 @@
 {
-  "name": "formatted-input",
+  "name": "custom-formatter",
   "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "git@github.com:CityBaseInc/formatted-input.git",
-  "author": "Citybase Inc.",
+  "repository": "git@github.com:CityBaseInc/custom-formatter.git",
+  "author": "Citybase Inc. <opensource@thecitybase.com>",
   "license": "MIT",
-  "browser": "dist/formatted-input.e31bb0bc.js",
+  "browser": "dist/custom-formatter.e31bb0bc.js",
   "dependencies": {
     "babel-loader": "8.0.5",
     "react": "^16.9.0",

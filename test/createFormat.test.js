@@ -1,5 +1,5 @@
 import test from 'ava';
-import { createFormat } from '../src/FormattedInput';
+import { createFormat } from '../src';
 import { phoneFormats, dateFormats } from "./utils";
 
 test("creates a formatter correctly", t => {
