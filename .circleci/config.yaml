@@ -18,4 +18,17 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+  test:
+    docker:
+      - image: circleci/node:7.10
+    
+    working_directory: ~/formatted-input
+    steps:
+      - checkout
       - run: yarn test
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
