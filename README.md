@@ -1,6 +1,6 @@
 ![header](/img/formatted-input-logo.png)
 
-[![CircleCI](https://circleci.com/gh/CityBaseInc/formatted-input.svg?style=svg&circle-token=5037d4066397bd922d54f2bef98d612a87afd6dd)](https://circleci.com/gh/CityBaseInc/formatted-input)
+[![CircleCI](https://circleci.com/gh/CityBaseInc/custom-formatter.svg?style=svg&circle-token=5037d4066397bd922d54f2bef98d612a87afd6dd)](https://circleci.com/gh/CityBaseInc/custom-formatter)
 
 ## What?
 
