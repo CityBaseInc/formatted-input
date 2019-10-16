@@ -53,7 +53,6 @@ export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
   const maxFormatExceeded = rawValue.length >= formatter.formats.length;
   // if forced to stay formatted, offset by delims - 1
   if (maxFormatExceeded) {
-    console.log(rawIndex);
     const delims = countDelims(formatter, rawValue.length - 1);
     return delims > 0 ? rawIndex + delims - 1 : rawIndex;
   } else {
