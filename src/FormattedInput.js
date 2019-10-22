@@ -2,13 +2,13 @@ import React, { useState, useLayoutEffect, useRef } from "react";
 import {
   format,
   unformat,
-  getUniqueFormatDelimeters,
+  getUniqueFormatDelimiters,
   formattedToUnformattedIndex,
   unformattedToFormattedIndex
 } from "./Utils";
 
 export const createFormat = (formats, formatChar) => ({
-  uniqueDelimeters: getUniqueFormatDelimeters(formats, formatChar),
+  uniqueDelimiters: getUniqueFormatDelimiters(formats, formatChar),
   formats: formats,
   formatChar: formatChar
 });
@@ -43,7 +43,7 @@ const FormattedInput = ({ value, formatter, onChange, props }) => {
         });
       }}
       onChange={event => {
-        const unformattedNewValue = unformat(formatter.uniqueDelimeters)(
+        const unformattedNewValue = unformat(formatter.uniqueDelimiters)(
           event.target.value
         );
 

@@ -1,4 +1,4 @@
-export const getUniqueFormatDelimeters = (formats, formatChar) => [
+export const getUniqueFormatDelimiters = (formats, formatChar) => [
   ...new Set(
     formats
       .join("")
@@ -23,14 +23,14 @@ const countDelims = (formatter, index) => {
   let count = 0;
   const format = formatter.formats[index];
   if (!format) return 0;
-  formatter.uniqueDelimeters.forEach(delim => count += format.split(delim).length - 1);
+  formatter.uniqueDelimiters.forEach(delim => count += format.split(delim).length - 1);
   return count;
 };
 
-export const unformat = uniqueDelimeters => formattedValue =>
+export const unformat = uniqueDelimiters => formattedValue =>
   formattedValue
     .split("")
-    .filter(s => !uniqueDelimeters.includes(s))
+    .filter(s => !uniqueDelimiters.includes(s))
     .join("");
 
 export const formattedToUnformattedIndex = (
