@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.14
-    
+
     working_directory: ~/custom-formatter
     steps:
       - checkout
@@ -17,11 +17,11 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-          
+
   test:
     docker:
       - image: circleci/node:10.14
-    
+
     working_directory: ~/custom-formatter
     steps:
       - checkout
@@ -34,4 +34,4 @@ workflows:
     jobs:
       - build
       - test
-      
+
