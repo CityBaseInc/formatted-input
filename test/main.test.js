@@ -6,10 +6,6 @@ import Enzyme from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
 import { dateFormats, phoneFormats } from "./utils";
 
-test("can use ava", t => {
-    t.pass();
-});
-
 Enzyme.configure({ adapter: new Adapter() });
 
 const TestForm = ({formats, char}) => {
