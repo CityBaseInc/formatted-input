@@ -10,6 +10,8 @@
     "start-prod": "parcel build index.html && serve ./dist/"
   },
   "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "redux": "^4.0.4",
     "redux-freeform": "^3.0.0"
   },
