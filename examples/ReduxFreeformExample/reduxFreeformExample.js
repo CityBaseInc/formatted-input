@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedInput, createFormat } from "custom-formatter";
+import { FormattedInput, createFormat } from "formatted-input";
 import {
   required,
   matchesField,
