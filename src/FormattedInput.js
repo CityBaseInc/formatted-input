@@ -13,7 +13,7 @@ export const createFormat = (formats, formatChar) => ({
   formatChar: formatChar
 });
 
-const FormattedInput = ({ value, formatter, onChange, props }) => {
+const FormattedInput = ({ value, formatter, onChange, ...props }) => {
   const inputEl = useRef(null);
   const [state, setState] = useState({
     selectionStart: 0,
