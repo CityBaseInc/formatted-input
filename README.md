@@ -1,10 +1,10 @@
 ![header](/img/formatted-input-logo.png)
 
-[![CircleCI](https://circleci.com/gh/CityBaseInc/custom-formatter.svg?style=svg&circle-token=5037d4066397bd922d54f2bef98d612a87afd6dd)](https://circleci.com/gh/CityBaseInc/custom-formatter)
+[![CircleCI](https://circleci.com/gh/CityBaseInc/formatted-input.svg?style=svg&circle-token=5037d4066397bd922d54f2bef98d612a87afd6dd)](https://circleci.com/gh/CityBaseInc/formatted-input)
 
 ## What?
 
-Custom-Formatter is a small component library which will allow you to design a custom input format and apply it to a form field. No matter the type of formatting your form needs, you are able to customize what type of format the input takes and the symbols being used in between the characters or digits.
+Formatted-Input is a small component library which will allow you to design a custom input format and apply it to a form field. No matter the type of formatting your form needs, you are able to customize what type of format the input takes and the symbols being used in between the characters or digits.
 
 The component at the center of the library is FormattedInput, which like the basic input element, is a [controlled component](https://reactjs.org/docs/forms.html#controlled-components), which means that the React component utilizing it is the source of truth for its value.
 
@@ -12,14 +12,14 @@ FormattedInput is purely a cosmetic UI component, meaning that the raw value of 
 
 ## Why?
 
-Custom-Formatter provides the designer with as much control as possible. There are similar packages with more specific contexts (for example, inputs designed to format currency). By requiring each format to be specifically designed, the developer has full control over how the addition of each new character affects the format. See the phone format example below for how adding two characters at the end will affect the placement of characters at the beginning.
+Formatted-Input provides the designer with as much control as possible. There are similar packages with more specific contexts (for example, inputs designed to format currency). By requiring each format to be specifically designed, the developer has full control over how the addition of each new character affects the format. See the phone format example below for how adding two characters at the end will affect the placement of characters at the beginning.
 
 ## Creating a Formatter
 
-Custom-Formatter exposes a `createFormat` function to allow you complete control over what formats the user's input can take (in order). You supply an array of string formats which will be applied to the user's input by swapping out the placeholder character (of your choosing) for the actual value.
+Formatted-Input exposes a `createFormat` function to allow you complete control over what formats the user's input can take (in order). You supply an array of string formats which will be applied to the user's input by swapping out the placeholder character (of your choosing) for the actual value.
 
 ```javascript
-import { createFormat } from "custom-formatter";
+import { createFormat } from "formatted-input";
 const phoneFormats = [
   "",
   "+_",
@@ -46,7 +46,7 @@ Check the `/examples` folder for a runnable demonstration.
 
 ```javascript
 import React, { useState } from "react";
-import { FormattedInput, createFormat } from "custom-formatter";
+import { FormattedInput, createFormat } from "formatted-input";
 
 const dateFormats = [
   "",

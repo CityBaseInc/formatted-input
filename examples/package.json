@@ -1,7 +1,7 @@
 {
-  "name": "custom-formatter-examples",
+  "name": "formatted-input-examples",
   "version": "1.0.0",
-  "description": "Example of building a form using custom-formatter",
+  "description": "Example of building a form using formatted-input",
   "main": "index.js",
   "author": "Citybase Inc. <opensource@thecitybase.com>",
   "license": "MIT",
