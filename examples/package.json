@@ -1,5 +1,5 @@
 {
-  "name": "custom-formatter",
+  "name": "custom-formatter-examples",
   "version": "1.0.0",
   "description": "Example of building a form using custom-formatter",
   "main": "index.js",

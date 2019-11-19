@@ -9,7 +9,10 @@ export default [
     output: {
       name: "index",
       file: pkg.main,
-      format: "umd"
+      format: "umd",
+      globals: {
+        react: "React"
+      }
     },
     plugins: [
       resolve(),
@@ -19,9 +22,6 @@ export default [
       }),
       commonjs()
     ],
-    external: ["react", "prop-types"],
-    globals: {
-      react: "React"
-    }
+    external: ["react", "prop-types"]
   }
 ];
