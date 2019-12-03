@@ -59,7 +59,9 @@ export const formattedToUnformattedIndex = (
 
 export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter, del) => {
   const maxFormatExceeded = rawValue.length >= formatter.formats.length;
-  // if forced to stay formatted, offset by delims - 1
+  // If forced to stay formatted, offset by delims - 1
+  // This is done so the component doesn't assume that any added chars will be kept
+  // (i.e. if an external constraint is applied)
   if (maxFormatExceeded) {
     const delims = countDelims(formatter, rawValue.length - 1);
     return (delims > 0 && !del) ? rawIndex + delims - 1 : rawIndex;
