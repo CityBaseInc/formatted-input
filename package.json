@@ -2,7 +2,7 @@
   "name": "formatted-input",
   "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "git@github.com:CityBaseInc/formatted-input.git",
+  "repository": "https://github.com/CityBaseInc/formatted-input",
   "author": "Citybase Inc. <opensource@thecitybase.com>",
   "license": "MIT",
   "browser": "dist/formatted-input.e31bb0bc.js",
