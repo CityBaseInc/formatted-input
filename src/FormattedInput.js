@@ -2,13 +2,11 @@ import React, { useState, useLayoutEffect, useRef } from "react";
 import {
   format,
   unformat,
-  getUniqueFormatDelimiters,
   formattedToUnformattedIndex,
   unformattedToFormattedIndex
 } from "./Utils";
 
 export const createFormat = (formats, formatChar) => ({
-  uniqueDelimiters: getUniqueFormatDelimiters(formats, formatChar),
   formats: formats,
   formatChar: formatChar
 });
@@ -19,7 +17,8 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
     selectionStart: 0,
     selectionEnd: 0,
     rawValue: value,
-    delete: false
+    delete: false,
+    formattedValue: format(formatter)(value)
   });
   useLayoutEffect(() => {
     if (inputEl.current) {
@@ -36,16 +35,48 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
       value={format(formatter)(value)}
       onKeyDown={event => {
         setState({
-          rawValue: state.rawValue,
+          rawValue: value,
           selectionStart: event.target.selectionStart,
           selectionEnd: event.target.selectionEnd,
-          delete: event.key === "Backspace" || event.key === "Delete"
+          delete: event.key === "Backspace" || event.key === "Delete",
+          formattedValue: event.target.value
         });
       }}
       onChange={event => {
-        const unformattedNewValue = unformat(formatter.uniqueDelimiters)(
-          event.target.value
+        var injectionLength =
+          event.target.value.length - state.formattedValue.length;
+        const end =
+          state.selectionStart === state.selectionEnd
+            ? state.selectionStart + injectionLength
+            : state.selectionEnd - 1;
+        const injection = event.target.value.substring(
+          state.selectionStart,
+          end
         );
+
+        const rawInjectionPointStart = formattedToUnformattedIndex(
+          state.selectionStart,
+          state.rawValue,
+          formatter
+        );
+        const rawInjectionPointEnd = formattedToUnformattedIndex(
+          state.selectionEnd,
+          state.rawValue,
+          formatter
+        );
+        const unformattedOldValue = unformat(formatter)(
+          state.formattedValue,
+          state.rawValue.length
+        );
+        const unformattedNewValue = state.delete
+          ? rawInjectionPointStart === rawInjectionPointEnd
+            ? unformattedOldValue.substring(0, rawInjectionPointStart - 1) +
+              unformattedOldValue.substring(rawInjectionPointStart)
+            : unformattedOldValue.substring(0, rawInjectionPointStart) +
+              unformattedOldValue.substring(rawInjectionPointEnd)
+          : unformattedOldValue.substring(0, rawInjectionPointStart) +
+            injection +
+            unformattedOldValue.substring(rawInjectionPointEnd);
 
         const lengthDifference =
           unformattedNewValue.length - state.rawValue.length;
@@ -71,12 +102,13 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
         setState({
           selectionStart: newFormattedCursorPosition,
           selectionEnd: newFormattedCursorPosition,
-          rawValue: unformattedNewValue,
-          delete: false
+          rawValue: state.rawValue,
+          delete: false,
+          formattedValue: state.formattedValue
         });
         if (onChange) {
           onChange(unformattedNewValue);
-        };
+        }
       }}
     />
   );
