@@ -120,9 +120,10 @@ test("handles multiple reformatting on user input", t => {
   formattedInput.simulate("change", {target: {value: "12"}});
   let input = form.find("input").first();
   t.is(input.props().value, "+1 2");
-  /*formattedInput.simulate("change", {target: {value: "34"}});
+  formattedInput.simulate("change");
+  formattedInput.simulate("change", {target: {value: "34"}});
   input = form.find("input").first();
-  t.is(input.props().value, "+1 (234) ");*/
+  t.is(input.props().value, "+1 (234) ");
 });
 
 test("handles complex reformatting on user input", t => {
@@ -131,21 +132,25 @@ test("handles complex reformatting on user input", t => {
   formattedInput.simulate("change", {target: {value: "12345678900"}});
   let input = form.find("input").first();
   t.is(input.props().value, "+1 (234) 567 - 8900");
-  /*formattedInput.simulate("change", {target: {value: "00"}});
+  formattedInput.simulate("change");
+  formattedInput.simulate("change", {target: {value: "00"}});
   input = form.find("input").first();
-  t.is(input.props().value, "+123 (456) 789 - 0000");*/
+  t.is(input.props().value, "+123 (456) 789 - 0000");
 });
 
 test("unformats beyond formatter without constraints", t => {
   let form = mount(<TestForm formats={phoneFormats} char={"_"} />);
   let formattedInput = form.find("FormattedInput").at(0);
   t.is(formattedInput.find("input").length, 1);
-  formattedInput.simulate("change", {target: {value: "12345678901234"}});
+  formattedInput.simulate("change", {target: {value: "1234567890000"}});
   let input = form.find("input").first();
-  t.is(input.props().value, "12345678901234");
-  /*formattedInput.simulate("change", {target: {value: "00"}});
+  t.is(input.props().value, "+123 (456) 789 - 0000");
+  formattedInput.simulate("change");
+  formattedInput.simulate("change", {target: {value: "00"}});
   input = form.find("input").first();
-  t.is(input.props().value, "1234567890123400");
+  t.is(input.props().value, "123456789000000");
+
+  /*formattedInput.simulate("change");
   formattedInput.simulate("change", {target: {value: "00"}});
   input = form.find("input").first();
   t.is(input.props().value, "123456789012340000");*/
