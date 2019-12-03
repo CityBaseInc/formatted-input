@@ -106,7 +106,8 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
             ? unformattedToFormattedIndex(
                 rawIndex,
                 unformattedNewValue,
-                formatter
+                formatter,
+                state.delete
               )
             : state.delete
             ? state.selectionStart

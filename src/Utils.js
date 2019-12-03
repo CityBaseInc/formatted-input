@@ -57,12 +57,12 @@ export const formattedToUnformattedIndex = (
   }
 };
 
-export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
+export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter, del) => {
   const maxFormatExceeded = rawValue.length >= formatter.formats.length;
   // if forced to stay formatted, offset by delims - 1
   if (maxFormatExceeded) {
     const delims = countDelims(formatter, rawValue.length - 1);
-    return delims > 0 ? rawIndex + delims - 1 : rawIndex;
+    return (delims > 0 && !del) ? rawIndex + delims - 1 : rawIndex;
   } else {
     return (
       formatter.formats[rawValue.length]
