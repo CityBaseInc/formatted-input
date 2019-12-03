@@ -1,3 +1,13 @@
+export const getUniqueFormatDelimiters = (formats, formatChar) => [
+  ...new Set(
+    formats
+      .join("")
+      .split(formatChar)
+      .join("")
+      .split("")
+  )
+];
+
 export const format = formatter => value => {
   const usedFormat = formatter.formats[value.length];
   if (!usedFormat) {
@@ -7,6 +17,14 @@ export const format = formatter => value => {
   const valuePieces = value.split("");
   const zipped = formatPieces.map((v, i) => v + (valuePieces[i] || ""));
   return zipped.join("");
+};
+
+const countDelims = (formatter, index) => {
+  let count = 0;
+  const format = formatter.formats[index];
+  if (!format) return 0;
+  formatter.uniqueDelimiters.forEach(delim => count += format.split(delim).length - 1);
+  return count;
 };
 
 export const unformat = formatter => (formattedValue, formatIndex) => {
@@ -41,8 +59,10 @@ export const formattedToUnformattedIndex = (
 
 export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
   const maxFormatExceeded = rawValue.length >= formatter.formats.length;
+  // if forced to stay formatted, offset by delims - 1
   if (maxFormatExceeded) {
-    return rawIndex;
+    const delims = countDelims(formatter, rawValue.length - 1);
+    return delims > 0 ? rawIndex + delims - 1 : rawIndex;
   } else {
     return (
       formatter.formats[rawValue.length]

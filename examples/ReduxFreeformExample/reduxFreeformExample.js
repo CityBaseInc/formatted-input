@@ -22,8 +22,7 @@ const phoneFormats = [
   "+_ (___) ___ - ___",
   "+_ (___) ___ - ____",
   "+__ (___) ___ - ____",
-  "+___ (___) ___ - ____",
-  "+___ (___) ___ - _____"
+  "+___ (___) ___ - ____"
 ];
 
 const dateFormats = [
@@ -35,8 +34,7 @@ const dateFormats = [
   "xx/xx/x",
   "xx/xx/xx",
   "xx/xx/xxx",
-  "xx/xx/xxxx",
-  "xx/xx/xxxxx"
+  "xx/xx/xxxx"
 ];
 
 const creditCardFormats = [
@@ -56,8 +54,7 @@ const creditCardFormats = [
   "~~~~ ~~~~ ~~~~ ~",
   "~~~~ ~~~~ ~~~~ ~~",
   "~~~~ ~~~~ ~~~~ ~~~",
-  "~~~~ ~~~~ ~~~~ ~~~~",
-  "~~~~ ~~~~ ~~~~ ~~~~~"
+  "~~~~ ~~~~ ~~~~ ~~~~"
 ];
 
 const moneyFormats = [

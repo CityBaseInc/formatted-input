@@ -3,11 +3,13 @@ import {
   format,
   unformat,
   inject,
+  getUniqueFormatDelimiters,
   formattedToUnformattedIndex,
   unformattedToFormattedIndex
 } from "./Utils";
 
 export const createFormat = (formats, formatChar) => ({
+  uniqueDelimiters: getUniqueFormatDelimiters(formats, formatChar),
   formats: formats,
   formatChar: formatChar
 });
