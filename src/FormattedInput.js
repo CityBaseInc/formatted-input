@@ -119,7 +119,7 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
         });
         if (onChange) {
           onChange(unformattedNewValue);
-        }
+        };
       }}
     />
   );
