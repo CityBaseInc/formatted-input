@@ -20,6 +20,9 @@ export const unformat = formatter => (formattedValue, formatIndex) => {
     .join("");
 };
 
+export const inject = baseString => (start, end, newString) =>
+  baseString.substring(0, start) + newString + baseString.substring(end);
+
 export const formattedToUnformattedIndex = (
   formattedIndex,
   rawValue,

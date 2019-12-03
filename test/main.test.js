@@ -149,11 +149,6 @@ test("unformats beyond formatter without constraints", t => {
   formattedInput.simulate("change", {target: {value: "00"}});
   input = form.find("input").first();
   t.is(input.props().value, "123456789000000");
-
-  /*formattedInput.simulate("change");
-  formattedInput.simulate("change", {target: {value: "00"}});
-  input = form.find("input").first();
-  t.is(input.props().value, "123456789012340000");*/
 });
 
 test("constrained under format", t => {

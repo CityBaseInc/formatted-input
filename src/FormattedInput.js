@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect, useRef } from "react";
 import {
   format,
   unformat,
+  inject,
   formattedToUnformattedIndex,
   unformattedToFormattedIndex
 } from "./Utils";
@@ -68,15 +69,25 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
           state.formattedValue,
           state.rawValue.length
         );
+
+        const injectIntoOldValue = inject(unformattedOldValue);
         const unformattedNewValue = state.delete
           ? rawInjectionPointStart === rawInjectionPointEnd
-            ? unformattedOldValue.substring(0, rawInjectionPointStart - 1) +
-              unformattedOldValue.substring(rawInjectionPointStart)
-            : unformattedOldValue.substring(0, rawInjectionPointStart) +
-              unformattedOldValue.substring(rawInjectionPointEnd)
-          : unformattedOldValue.substring(0, rawInjectionPointStart) +
-            injection +
-            unformattedOldValue.substring(rawInjectionPointEnd);
+            ? injectIntoOldValue(
+                rawInjectionPointStart - 1,
+                rawInjectionPointStart,
+                ""
+              )
+            : injectIntoOldValue(
+                rawInjectionPointStart,
+                rawInjectionPointEnd,
+                ""
+              )
+          : injectIntoOldValue(
+              rawInjectionPointStart,
+              rawInjectionPointEnd,
+              injection
+            );
 
         const lengthDifference =
           unformattedNewValue.length - state.rawValue.length;
