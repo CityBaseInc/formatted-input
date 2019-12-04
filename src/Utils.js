@@ -27,11 +27,19 @@ const countDelims = (formatter, index) => {
   return count;
 };
 
-export const unformat = uniqueDelimiters => formattedValue =>
-  formattedValue
+export const unformat = formatter => (formattedValue, formatIndex) => {
+  if (formatIndex >= formatter.formats.length) {
+    return formattedValue;
+  }
+  const format = formatter.formats[formatIndex];
+  return formattedValue
     .split("")
-    .filter(s => !uniqueDelimiters.includes(s))
+    .filter((_, i) => !(format[i] != formatter.formatChar))
     .join("");
+};
+
+export const inject = baseString => (start, end, newString) =>
+  baseString.substring(0, start) + newString + baseString.substring(end);
 
 export const formattedToUnformattedIndex = (
   formattedIndex,
@@ -49,12 +57,14 @@ export const formattedToUnformattedIndex = (
   }
 };
 
-export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter) => {
+export const unformattedToFormattedIndex = (rawIndex, rawValue, formatter, del) => {
   const maxFormatExceeded = rawValue.length >= formatter.formats.length;
-  // if forced to stay formatted, offset by delims - 1
+  // If forced to stay formatted, offset by delims - 1
+  // This is done so the component doesn't assume that any added chars will be kept
+  // (i.e. if an external constraint is applied)
   if (maxFormatExceeded) {
     const delims = countDelims(formatter, rawValue.length - 1);
-    return delims > 0 ? rawIndex + delims - 1 : rawIndex;
+    return (delims > 0 && !del) ? rawIndex + delims - 1 : rawIndex;
   } else {
     return (
       formatter.formats[rawValue.length]
