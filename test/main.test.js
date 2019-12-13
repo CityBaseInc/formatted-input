@@ -166,9 +166,11 @@ test("cursor position", t => {
   let form = mount(<TestForm formats={phoneFormats} char={"_"} />);
   let formattedInput = form.find("FormattedInput").at(0);
   let input = form.find("input").first();
+  input.instance().focus();
   t.is(input.instance().selectionStart, 0);
   t.is(input.instance().selectionEnd, 0);
   formattedInput.simulate("change", {target: {value: "12345678900"}});
+  input.instance().focus();
   input = form.find("input").first();
   t.is(input.instance().selectionStart, 19);
   t.is(input.instance().selectionEnd, 19);

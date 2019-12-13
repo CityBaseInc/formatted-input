@@ -25,7 +25,7 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
   });
   useLayoutEffect(() => {
     // A lot of the work here is cursor manipulation
-    if (inputEl.current) {
+    if (inputEl.current && inputEl.current === document.activeElement) {
       inputEl.current.setSelectionRange(
         state.selectionStart,
         state.selectionEnd
