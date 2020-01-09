@@ -2,11 +2,6 @@
 
 [![CircleCI](https://circleci.com/gh/CityBaseInc/formatted-input.svg?style=svg&circle-token=5037d4066397bd922d54f2bef98d612a87afd6dd)](https://circleci.com/gh/CityBaseInc/formatted-input)
 
-## Demo
-![Formatted Input Demo Demo](examples/formatted-input-demo.gif)
-
-https://examples.amcconnell.now.sh
-
 ## What?
 
 Formatted-Input is a small component library which will allow you to design a custom input format and apply it to a form field. No matter the type of formatting your form needs, you are able to customize what type of format the input takes and the symbols being used in between the characters or digits.
@@ -18,6 +13,11 @@ FormattedInput is purely a cosmetic UI component, meaning that the raw value of 
 ## Why?
 
 Formatted-Input provides the designer with as much control as possible. There are similar packages with more specific contexts (for example, inputs designed to format currency). By requiring each format to be specifically designed, the developer has full control over how the addition of each new character affects the format. See the phone format example below for how adding two characters at the end will affect the placement of characters at the beginning.
+
+## Demo
+![Formatted Input Demo Demo](examples/formatted-input-demo.gif)
+
+https://examples.amcconnell.now.sh
 
 ## Creating a Formatter
 
