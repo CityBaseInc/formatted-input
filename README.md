@@ -15,7 +15,7 @@ FormattedInput is purely a cosmetic UI component, meaning that the raw value of 
 Formatted-Input provides the designer with as much control as possible. There are similar packages with more specific contexts (for example, inputs designed to format currency). By requiring each format to be specifically designed, the developer has full control over how the addition of each new character affects the format. See the phone format example below for how adding two characters at the end will affect the placement of characters at the beginning.
 
 ## Demo
-![Formatted Input Demo Demo](examples/formatted-input-demo.gif)
+![Formatted Input Demo](examples/formatted-input-demo.gif)
 
 https://examples.amcconnell.now.sh
 
