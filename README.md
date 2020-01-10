@@ -14,6 +14,11 @@ FormattedInput is purely a cosmetic UI component, meaning that the raw value of 
 
 Formatted-Input provides the designer with as much control as possible. There are similar packages with more specific contexts (for example, inputs designed to format currency). By requiring each format to be specifically designed, the developer has full control over how the addition of each new character affects the format. See the phone format example below for how adding two characters at the end will affect the placement of characters at the beginning.
 
+## Demo
+![Formatted Input Demo](examples/formatted-input-demo.gif)
+
+https://examples.amcconnell.now.sh
+
 ## Creating a Formatter
 
 Formatted-Input exposes a `createFormat` function to allow you complete control over what formats the user's input can take (in order). You supply an array of string formats which will be applied to the user's input by swapping out the placeholder character (of your choosing) for the actual value.
