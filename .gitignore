@@ -4,3 +4,4 @@ dist/
 .DS_STORE
 .nyc_output
 .DS_Store
+stats.html
