@@ -35,6 +35,11 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
     }
   });
   const handleChange = (event) => {
+    const deleteKeyPressed = stateRefs.current.isDelete;
+    const maxFormatExceeded = stateRefs.current.rawValue.length >= formatter.formats.length - 1;
+    if (maxFormatExceeded && !deleteKeyPressed) {
+      return;
+    }
     /* At the beginning of onChange, event.target.value is a concat of the previous formatted value
     * and an unformatted injection at the start, end, or in the middle (maybe a deletion). To prepare 
     * the unformatted value for the user's onChange, the formatted string and unformatted injection need
@@ -73,7 +78,6 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
 
     // Edit the previous unformatted value (either add, update or delete)
     const injectIntoOldValue = inject(unformattedOldValue);
-    const deleteKeyPressed = stateRefs.current.isDelete;
     const unformattedNewValue = deleteKeyPressed
       ? rawInjectionPointStart === rawInjectionPointEnd
         ? injectIntoOldValue(
@@ -116,11 +120,12 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
           ? stateRefs.current.selectionStart
           : stateRefs.current.selectionEnd;
 
+    const formattedNewValue = format(formatter)(unformattedNewValue);
     setState({
       selectionStart: newFormattedCursorPosition,
       selectionEnd: newFormattedCursorPosition,
       rawValue: unformattedNewValue,
-      formattedValue: format(formatter)(unformattedNewValue),
+      formattedValue: formattedNewValue,
     });
     // Apply the external onChange function to the raw underlying string
     // This is where the user generally updates the input value
