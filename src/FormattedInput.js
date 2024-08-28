@@ -15,10 +15,8 @@ export const createFormat = (formats, formatChar) => ({
 });
 
 const FormattedInput = ({ value, formatter, onChange, ...props }) => {
+  const [formattedValue, setFormattedValue] = useState(format(formatter)(value));
   const inputEl = useRef(null);
-  const [state, setState] = useState({
-    formattedValue: format(formatter)(value)
-  });
   const stateRefs = useRef({
     selectionStart: 0,
     selectionEnd: 0,
@@ -29,11 +27,11 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
     // A lot of the work here is cursor manipulation
     if (inputEl.current && inputEl.current === document.activeElement) {
       inputEl.current.setSelectionRange(
-        state.selectionStart,
-        state.selectionEnd
+        stateRefs.current.selectionStart,
+        stateRefs.current.selectionEnd
       );
     }
-  });
+  }, [stateRefs]);
   const handleChange = (event) => {
     const deleteKeyPressed = stateRefs.current.isDelete;
     const maxFormatExceeded = stateRefs.current.rawValue.length >= formatter.formats.length - 1;
@@ -47,7 +45,7 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
     * old unformatted value.
     */
     const injectionLength =
-      event.target.value.length - state.formattedValue.length;
+      event.target.value.length - formattedValue.length;
     const end =
       stateRefs.current.selectionStart === stateRefs.current.selectionEnd
         ? stateRefs.current.selectionStart + injectionLength
@@ -72,7 +70,7 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
     // Unformat the previous formatted value for injection
     // Using the relevant format string, strips away chars not marked with the formatChar
     const unformattedOldValue = unformat(formatter)(
-      state.formattedValue,
+      formattedValue,
       stateRefs.current.rawValue.length
     );
 
@@ -121,12 +119,7 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
           : stateRefs.current.selectionEnd;
 
     const formattedNewValue = format(formatter)(unformattedNewValue);
-    setState({
-      selectionStart: newFormattedCursorPosition,
-      selectionEnd: newFormattedCursorPosition,
-      rawValue: unformattedNewValue,
-      formattedValue: formattedNewValue,
-    });
+    setFormattedValue(formattedNewValue);
     // Apply the external onChange function to the raw underlying string
     // This is where the user generally updates the input value
     if (onChange) {

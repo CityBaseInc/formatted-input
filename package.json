@@ -1,16 +1,13 @@
 {
   "name": "formatted-input",
-  "version": "1.1.0-beta.0",
+  "version": "1.1.0",
   "main": "dist/formatted-input.cjs.js",
   "module": "dist/formatted-input.esm.js",
   "browser": "dist/formatted-input.umd.js",
   "repository": "https://github.com/CityBaseInc/formatted-input",
   "author": "Citybase Inc. <opensource@thecitybase.com>",
   "license": "MIT",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "files": ["src", "dist"],
   "peerDependencies": {
     "react": "^16.9.0"
   },
