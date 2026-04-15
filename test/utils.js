@@ -15,6 +15,15 @@ export const phoneFormats = [
   "+___ (___) ___ - ____"
 ];
 
+export const moneyFormats = [
+  "",
+  "$0.0_",
+  "$0.__",
+  "$_.__",
+  "$__.__",
+  "$___.__"
+];
+
 export const dateFormats = [
   "",
   "x",

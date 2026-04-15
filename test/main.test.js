@@ -4,7 +4,7 @@ import { shallow, mount } from "enzyme";
 import { FormattedInput, createFormat } from "../src";
 import Enzyme from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
-import { dateFormats, phoneFormats } from "./utils";
+import { dateFormats, moneyFormats, phoneFormats } from "./utils";
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -28,6 +28,21 @@ const NoOnChangeForm = ({formats, char}) => {
     value: val,
     formatter: createFormat(formats, char)
   }
+  return (
+    <form>
+      <FormattedInput {...props} />
+    </form>
+  );
+};
+
+const MoneyTestForm = ({ formats, char }) => {
+  const [val, setVal] = useState("123");
+  const props = {
+    value: val,
+    formatter: createFormat(formats, char),
+    // Mimic a digits-only constraint (e.g. onlyNaturals in redux-freeform)
+    onChange: v => { if (/^\d*$/.test(v)) setVal(v); }
+  };
   return (
     <form>
       <FormattedInput {...props} />
@@ -160,6 +175,29 @@ test("constrained under format", t => {
   formattedInput.simulate("change", {target: {value: "00"}});
   input = form.find("input").first();
   t.is(input.props().value, "+1 (234) 567 - 8900");
+});
+
+test("non-digit input rejected by onChange does not corrupt subsequent keypresses", t => {
+  // Regression: previously, when onChange rejected a non-digit (e.g. "."),
+  // the internal formattedValue state diverged from the displayed value,
+  // causing subsequent keypresses to silently delete digits.
+  let form = mount(<MoneyTestForm formats={moneyFormats} char={"_"} />);
+  let formattedInput = form.find("FormattedInput").at(0);
+  let input = form.find("input").first();
+  t.is(input.props().value, "$1.23");
+
+  // Simulate keydown (captures stateRefs) then change (browser injects ".").
+  // onChange rejects "123." — value stays "123" → "$1.23".
+  input.simulate("keydown", { key: ".", target: { selectionStart: 5, selectionEnd: 5 } });
+  formattedInput.simulate("change", { target: { value: "$1.23." } });
+  input = form.find("input").first();
+  t.is(input.props().value, "$1.23");
+
+  // A subsequent digit must still work correctly — no corruption.
+  input.simulate("keydown", { key: "4", target: { selectionStart: 5, selectionEnd: 5 } });
+  formattedInput.simulate("change", { target: { value: "$12.34" } });
+  input = form.find("input").first();
+  t.is(input.props().value, "$12.34");
 });
 
 test("cursor position", t => {
