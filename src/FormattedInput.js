@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import {
   format,
   unformat,
@@ -14,15 +14,14 @@ export const createFormat = (formats, formatChar) => ({
   formatChar: formatChar
 });
 
-const FormattedInput = ({ value, formatter, onChange, onKeyDown, ...props }) => {
-  const [formattedValue, setFormattedValue] = useState(format(formatter)(value));
+const FormattedInput = ({ value, formatter, onChange, ...props }) => {
   const inputEl = useRef(null);
   const stateRefs = useRef({
     selectionStart: 0,
     selectionEnd: 0,
     isDelete: false,
     rawValue: '',
-  })
+  });
   useLayoutEffect(() => {
     // A lot of the work here is cursor manipulation
     if (inputEl.current && inputEl.current === document.activeElement) {
@@ -44,8 +43,12 @@ const FormattedInput = ({ value, formatter, onChange, onKeyDown, ...props }) => 
     * to be separated, then unformat the formatted string, then insert (or delete) the injection from the
     * old unformatted value.
     */
+    // Derive the previous formatted value directly from the value prop (last
+    // render's closure). This is always correct — it can never diverge even
+    // when external onChange rejects or filters the typed character.
+    const prevFormattedValue = format(formatter)(stateRefs.current.rawValue);
     const injectionLength =
-      event.target.value.length - formattedValue.length;
+      event.target.value.length - prevFormattedValue.length;
     const end =
       stateRefs.current.selectionStart === stateRefs.current.selectionEnd
         ? stateRefs.current.selectionStart + injectionLength
@@ -70,7 +73,7 @@ const FormattedInput = ({ value, formatter, onChange, onKeyDown, ...props }) => 
     // Unformat the previous formatted value for injection
     // Using the relevant format string, strips away chars not marked with the formatChar
     const unformattedOldValue = unformat(formatter)(
-      formattedValue,
+      prevFormattedValue,
       stateRefs.current.rawValue.length
     );
 
@@ -118,8 +121,11 @@ const FormattedInput = ({ value, formatter, onChange, onKeyDown, ...props }) => 
           ? stateRefs.current.selectionStart
           : stateRefs.current.selectionEnd;
 
-    const formattedNewValue = format(formatter)(unformattedNewValue);
-    setFormattedValue(formattedNewValue);
+    stateRefs.current = {
+      ...stateRefs.current,
+      selectionStart: newFormattedCursorPosition,
+      selectionEnd: newFormattedCursorPosition,
+    };
     // Apply the external onChange function to the raw underlying string
     // This is where the user generally updates the input value
     if (onChange) {
@@ -133,10 +139,6 @@ const FormattedInput = ({ value, formatter, onChange, onKeyDown, ...props }) => 
       ref={inputEl}
       value={format(formatter)(value)}
       onKeyDown={(event) => {
-        if (onKeyDown) {
-          onKeyDown(event);
-          if (event.defaultPrevented) return;
-        }
         // Keep track of the state of the input before onChange
         stateRefs.current = {
           isDelete: event.key === "Backspace" || event.key === "Delete",

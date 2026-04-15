@@ -35,13 +35,13 @@ const NoOnChangeForm = ({formats, char}) => {
   );
 };
 
-const KeyFilteredTestForm = ({ formats, char }) => {
+const MoneyTestForm = ({ formats, char }) => {
   const [val, setVal] = useState("123");
   const props = {
     value: val,
     formatter: createFormat(formats, char),
-    onChange: v => setVal(v),
-    onKeyDown: e => { if (e.key === ".") e.preventDefault(); }
+    // Mimic a digits-only constraint (e.g. onlyNaturals in redux-freeform)
+    onChange: v => { if (/^\d*$/.test(v)) setVal(v); }
   };
   return (
     <form>
@@ -177,56 +177,27 @@ test("constrained under format", t => {
   t.is(input.props().value, "+1 (234) 567 - 8900");
 });
 
-test("calls user-provided onKeyDown", t => {
-  let called = false;
-  const props = {
-    value: "123",
-    formatter: createFormat(moneyFormats, "_"),
-    onChange: () => {},
-    onKeyDown: () => { called = true; }
-  };
-  let wrapper = mount(<FormattedInput {...props} />);
-  let input = wrapper.find("input").first();
-  input.simulate("keydown", { key: "1", target: { selectionStart: 0, selectionEnd: 0 } });
-  t.true(called);
-});
-
-test("onKeyDown preventDefault stops stateRefs update and value is unchanged", t => {
-  // Start with value "123" which displays as "$1.23" in money format.
-  // Pressing "." with preventDefault should leave the value at "$1.23".
-  let form = mount(<KeyFilteredTestForm formats={moneyFormats} char={"_"} />);
+test("non-digit input rejected by onChange does not corrupt subsequent keypresses", t => {
+  // Regression: previously, when onChange rejected a non-digit (e.g. "."),
+  // the internal formattedValue state diverged from the displayed value,
+  // causing subsequent keypresses to silently delete digits.
+  let form = mount(<MoneyTestForm formats={moneyFormats} char={"_"} />);
+  let formattedInput = form.find("FormattedInput").at(0);
   let input = form.find("input").first();
   t.is(input.props().value, "$1.23");
 
-  // Simulate keydown for ".". The component's onKeyDown calls preventDefault,
-  // so stateRefs should NOT be updated and the value should stay unchanged.
+  // Simulate keydown (captures stateRefs) then change (browser injects ".").
+  // onChange rejects "123." — value stays "123" → "$1.23".
   input.simulate("keydown", { key: ".", target: { selectionStart: 5, selectionEnd: 5 } });
-
-  // In a real browser, preventDefault() stops onChange from firing.
-  // Verify value is still "$1.23".
+  formattedInput.simulate("change", { target: { value: "$1.23." } });
   input = form.find("input").first();
   t.is(input.props().value, "$1.23");
-});
 
-test("pressing decimal repeatedly does not corrupt money format value", t => {
-  // Regression test: previously, each decimal press would corrupt the internal
-  // formattedValue state, causing subsequent decimal presses to delete digits.
-  let form = mount(<KeyFilteredTestForm formats={moneyFormats} char={"_"} />);
-  let input = form.find("input").first();
-  t.is(input.props().value, "$1.23");
-
-  // Simulate pressing "." three times; value must remain unchanged each time.
-  for (let i = 0; i < 3; i++) {
-    const keyEvent = {
-      key: ".",
-      defaultPrevented: false,
-      preventDefault() { this.defaultPrevented = true; },
-      target: { selectionStart: 5, selectionEnd: 5 }
-    };
-    input.simulate("keydown", keyEvent);
-    input = form.find("input").first();
-    t.is(input.props().value, "$1.23", `value corrupted after ${i + 1} decimal press(es)`);
-  }
+  // A subsequent digit must still work correctly — no corruption.
+  input.simulate("keydown", { key: "4", target: { selectionStart: 5, selectionEnd: 5 } });
+  formattedInput.simulate("change", { target: { value: "$12.34" } });
+  input = form.find("input").first();
+  t.is(input.props().value, "$12.34");
 });
 
 test("cursor position", t => {
