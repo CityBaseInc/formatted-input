@@ -14,7 +14,7 @@ export const createFormat = (formats, formatChar) => ({
   formatChar: formatChar
 });
 
-const FormattedInput = ({ value, formatter, onChange, ...props }) => {
+const FormattedInput = ({ value, formatter, onChange, onKeyDown, ...props }) => {
   const [formattedValue, setFormattedValue] = useState(format(formatter)(value));
   const inputEl = useRef(null);
   const stateRefs = useRef({
@@ -133,6 +133,10 @@ const FormattedInput = ({ value, formatter, onChange, ...props }) => {
       ref={inputEl}
       value={format(formatter)(value)}
       onKeyDown={(event) => {
+        if (onKeyDown) {
+          onKeyDown(event);
+          if (event.defaultPrevented) return;
+        }
         // Keep track of the state of the input before onChange
         stateRefs.current = {
           isDelete: event.key === "Backspace" || event.key === "Delete",
